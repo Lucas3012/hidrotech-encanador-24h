@@ -199,7 +199,8 @@
   function askDescricao() {
     step = "descricao";
     say(
-      "Para eu já chegar preparado: conte <b>em poucas palavras</b> o que está acontecendo<br>(ex.: <i>cano furado embaixo da pia da cozinha</i>) 👇",
+      "Para eu já chegar preparado: conte <b>em poucas palavras</b> o que está acontecendo<br>(ex.: <i>cano furado embaixo da pia da cozinha</i>) 👇<br><br>" +
+        "Se preferir, manda uma <b>foto ou vídeo</b> do local no botão 📎 aqui embaixo — assim o técnico já leva a ferramenta certa. 📷",
       {
         quick: [
           { label: "📎 Foto ou vídeo do local", action: pickFile },
@@ -207,9 +208,6 @@
         ]
       }
     );
-    say("Se tiver, pode mandar também uma <b>foto ou vídeo</b> do local no botão 📎 abaixo — assim o técnico leva a ferramenta certa. 📷", {
-      delay: 500
-    });
   }
 
   function afterDescricao() {
