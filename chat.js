@@ -281,6 +281,11 @@
     menu();
   }
 
+  function askProblem() {
+    say("Claro! Me conta qual é o problema — ou toque na opção mais parecida 👇", {});
+    menu();
+  }
+
   function dontUnderstand() {
     say("Não entendi muito bem 🤔 — posso ajudar com uma destas:", {});
     menu();
@@ -334,12 +339,13 @@
     if (has(/(pre[çc]o|valor|or[çc]amento|quanto custa|cobra|pagamento|parcela)/)) return infoPreco();
     if (has(/(hor[aá]rio|24h|domingo|feriado|noite|madrug|de madrugada)/)) return infoHorario();
     if (has(/(regi[aã]o|onde voc|atend|cidade|d[aá] para chegar|chegam)/)) return infoArea();
-    if (has(/(humano|pessoa de verdade|encanador|atendente|falar com algu)/)) return handoff();
+    if (has(/(humano|pessoa de verdade|atendente|falar com)/)) return handoff();
     if (has(/(vaz|cano fur|tornei|pia|infiltra|pinga|registro)/)) return chooseService("vazamento");
     if (has(/(entup|esgoto|ralo|vaso sanit|descarga|gordura|n[ãa]o escoa)/)) return chooseService("desentupimento");
     if (has(/(bomba|press[aã]o|caixa d[aá]gua|sem [aá]gua|gua fra)/)) return chooseService("bomba");
     if (has(/(aquecedor|chuveiro|g[aá]s|esquentar)/)) return chooseService("aquecedor");
     if (has(/(reforma|banheiro|trocar (a )?(pia|vaso|tornei)|remodel)/)) return chooseService("reforma");
+    if (has(/(encanador|profissional|servi[çc]o|ajuda|problema)/)) return askProblem();
     if (has(/(^|\s)(oi|ol[áa]|e a[ií]|bom dia|boa tarde|boa noite|hey|opa|salve)/)) return greetAgain();
 
     dontUnderstand();
