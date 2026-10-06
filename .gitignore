@@ -19,3 +19,6 @@ Desktop.ini
 .env.*
 *.local
 
+
+# Notas privadas (nunca publicar)
+GOOGLE-MEU-NEGOCIO.md

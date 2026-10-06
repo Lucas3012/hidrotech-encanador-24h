@@ -69,6 +69,47 @@
     });
   }
 
+  /* ---------- Anexos: foto/vídeo do local (Supabase Storage) ---------- */
+
+  function enviarAnexo(protocolo, file) {
+    var ext = (String(file.name || "").split(".").pop() || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!ext || ext.length > 5) ext = /^image\//.test(file.type) ? "jpg" : "mp4";
+
+    var caminho = "chamados/" + String(protocolo || "").replace(/[^A-Za-z0-9-]/g, "") + "-" + Date.now() + "." + ext;
+
+    return fetch(SUPA_URL + "/storage/v1/object/" + caminho, {
+      method: "POST",
+      headers: {
+        apikey: SUPA_KEY,
+        Authorization: "Bearer " + SUPA_KEY,
+        "Content-Type": file.type || "application/octet-stream",
+        "x-upsert": "true",
+      },
+      body: file,
+    }).then(function (res) {
+      return res.text().then(function (txt) {
+        if (!res.ok) {
+          var json = null;
+          try {
+            json = JSON.parse(txt);
+          } catch (e) {
+            json = null;
+          }
+          throw new Error((json && json.message) || "Falha no envio da mídia");
+        }
+        return SUPA_URL + "/storage/v1/object/public/" + caminho;
+      });
+    });
+  }
+
+  function anexarChamado(protocolo, url, tipo) {
+    return rpc("anexar_chamado", {
+      p_protocolo: String(protocolo || "").trim().toUpperCase(),
+      p_url: url || "",
+      p_tipo: tipo || "",
+    });
+  }
+
   /* ---------- Painel administrativo ---------- */
 
   function lerSessao() {
@@ -195,6 +236,8 @@
   window.HidroDB = {
     criarChamado: criarChamado,
     consultarChamado: consultarChamado,
+    enviarAnexo: enviarAnexo,
+    anexarChamado: anexarChamado,
     login: login,
     logout: limparSessao,
     sessaoAtual: sessaoAtual,

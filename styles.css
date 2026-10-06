@@ -1053,6 +1053,40 @@ a.contact-line:hover { background: rgba(255,255,255,.13); border-color: var(--or
 .chat__form button:hover { background: var(--orange-dark); transform: scale(1.06); }
 .chat__form input:disabled { opacity: .6; }
 
+/* botão de anexo (foto / vídeo do local) */
+.chat__form .chat__attach {
+  background: #e8f1fb;
+  color: var(--blue);
+  font-size: 1.05rem;
+}
+.chat__form .chat__attach:hover { background: var(--blue); color: #fff; transform: scale(1.06); }
+.chat__form .chat__attach:disabled { opacity: .5; transform: none; }
+
+/* prévia da mídia dentro da conversa */
+.msg__anexo { display: block; }
+.msg__anexo img {
+  display: block;
+  width: 100%;
+  max-width: 210px;
+  border-radius: 12px;
+  margin-bottom: .3rem;
+  background: rgba(255,255,255,.25);
+}
+.msg__anexo video {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  border-radius: 12px;
+  margin-bottom: .3rem;
+  background: #000;
+}
+.msg__anexo-name {
+  display: block;
+  font-size: .74rem;
+  opacity: .85;
+  word-break: break-all;
+}
+
 /* =========================================================
    Páginas internas — Pedidos e Painel Admin
    ========================================================= */
@@ -1404,6 +1438,31 @@ a.contact-line:hover { background: rgba(255,255,255,.13); border-color: var(--or
 .ord-card__meta { display: flex; flex-wrap: wrap; gap: .55rem; font-size: .78rem; color: #5b6b80; }
 .ord-card__end, .ord-card__desc { margin: 0; font-size: .85rem; color: #44566d; line-height: 1.5; }
 .ord-card__desc { font-style: italic; color: #6b7b90; }
+
+/* anexo (foto/vídeo) enviado pelo chat */
+.ord-card__anexo { margin-top: .6rem; display: flex; flex-direction: column; gap: .35rem; }
+.ord-card__anexo-label {
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: #7b8aa0;
+}
+.ord-card__anexo img {
+  display: block;
+  max-width: 280px;
+  max-height: 210px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
+.ord-card__anexo video {
+  display: block;
+  max-width: 320px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #000;
+}
 .ord-card__fone { display: flex; gap: .5rem; flex-wrap: wrap; }
 
 .tag {

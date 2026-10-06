@@ -16,6 +16,8 @@
   var quick = document.getElementById("chatQuick");
   var form = document.getElementById("chatForm");
   var input = document.getElementById("chatInput");
+  var attachBtn = document.getElementById("chatAttach");
+  var fileInput = document.getElementById("chatFile");
   var badge = document.getElementById("chatBadge");
 
   if (!toggle || !panel || !msgs) return;
@@ -23,9 +25,20 @@
   /* ---------- estado ---------- */
   var started = false;
   var busy = false;
-  var step = "menu"; // menu | nome | endereco | fim
+  var step = "menu"; // menu | descricao | urgencia | nome | endereco | telefone | fim
   var queue = [];
-  var data = { servico: "", urgencia: "", nome: "", endereco: "", telefone: "", protocolo: "" };
+  var data = {
+    servico: "",
+    urgencia: "",
+    descricao: "",
+    anexo: null, // { file, tipo, url }
+    nome: "",
+    endereco: "",
+    telefone: "",
+    protocolo: ""
+  };
+
+  var MAX_ANEXO = 25 * 1024 * 1024; // 25 MB
 
   var SERVICES = {
     vazamento: {
@@ -178,13 +191,34 @@
     if (!s) return;
     data.servico = s.label;
 
+    say("<b>" + s.label + "</b> 👍\n" + s.text, { delay: 420 });
+    askDescricao();
+  }
+
+  /* etapa 1: descrição curta do problema + foto/vídeo opcional */
+  function askDescricao() {
+    step = "descricao";
+    say(
+      "Para eu já chegar preparado: conte <b>em poucas palavras</b> o que está acontecendo<br>(ex.: <i>cano furado embaixo da pia da cozinha</i>) 👇",
+      {
+        quick: [
+          { label: "📎 Foto ou vídeo do local", action: pickFile },
+          { label: "⏭️ Pular descrição", action: afterDescricao }
+        ]
+      }
+    );
+    say("Se tiver, pode mandar também uma <b>foto ou vídeo</b> do local no botão 📎 abaixo — assim o técnico leva a ferramenta certa. 📷", {
+      delay: 500
+    });
+  }
+
+  function afterDescricao() {
     if (data.urgencia) {
       askName();
       return;
     }
 
     step = "urgencia";
-    say("<b>" + s.label + "</b> 👍\n" + s.text, { delay: 420 });
     say("Isso está acontecendo <b>agora</b> ou posso agendar?", {
       quick: [
         { label: "⚡ Está acontecendo agora", cls: "chip-btn--urgent", action: function () { setUrgency("sim"); } },
@@ -224,6 +258,8 @@
       "🧾 <b>RESUMO DO CHAMADO</b>\n" +
       "Serviço: " + data.servico + "\n" +
       "Urgência: " + (data.urgencia || "Normal") + "\n" +
+      (data.descricao ? "Detalhe: " + esc(data.descricao) + "\n" : "") +
+      (data.anexo ? "📎 Foto/vídeo do local anexado\n" : "") +
       "Nome: " + esc(data.nome) + "\n" +
       "Endereço: " + esc(data.endereco) +
       (data.telefone ? "\nWhatsApp: " + esc(data.telefone) : "") + "\n\n" +
@@ -249,11 +285,12 @@
       servico: data.servico,
       urgencia: data.urgencia || "Normal",
       endereco: data.endereco,
-      descricao: "Chamado aberto pelo chat do site.",
+      descricao: data.descricao || "Chamado aberto pelo chat do site.",
       origem: "chat"
     })
       .then(function (protocolo) {
         data.protocolo = protocolo;
+        enviarAnexo(protocolo);
         say(
           "📋 <b>Protocolo: " + protocolo + "</b>\n" +
             "Guarde este código — é com ele que você acompanha o status na aba " +
@@ -271,8 +308,32 @@
       });
   }
 
+  /* sobe a foto/vídeo para o Supabase e vincula ao chamado */
+  function enviarAnexo(protocolo) {
+    if (!data.anexo || !window.HidroDB) return;
+    var arq = data.anexo.file;
+    var tipo = data.anexo.tipo;
+    window.HidroDB.enviarAnexo(protocolo, arq)
+      .then(function (url) {
+        return window.HidroDB.anexarChamado(protocolo, url, tipo);
+      })
+      .catch(function () {
+        /* upload falhou: o chamado já está registrado, não travamos o cliente */
+      });
+  }
+
   function reset() {
-    data = { servico: "", urgencia: "", nome: "", endereco: "", telefone: "", protocolo: "" };
+    if (data.anexo && data.anexo.url) URL.revokeObjectURL(data.anexo.url);
+    data = {
+      servico: "",
+      urgencia: "",
+      descricao: "",
+      anexo: null,
+      nome: "",
+      endereco: "",
+      telefone: "",
+      protocolo: ""
+    };
     say("Vamos de novo! 🔄", { delay: 350 });
     menu();
   }
@@ -330,12 +391,70 @@
     menu();
   }
 
+  /* ---------- anexos: foto / vídeo do local ---------- */
+  function pickFile() {
+    if (fileInput) fileInput.click();
+  }
+
+  function mb(bytes) {
+    return (bytes / (1024 * 1024)).toFixed(1).replace(".", ",");
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    var imagem = /^image\//.test(file.type);
+    var video = /^video\//.test(file.type);
+
+    if (!imagem && !video) {
+      say("Só consigo receber <b>foto</b> (JPG, PNG) ou <b>vídeo</b> (MP4, MOV) 📷", {});
+      return;
+    }
+    if (file.size > MAX_ANEXO) {
+      say("Esse arquivo tem <b>" + mb(file.size) + " MB</b> — o limite é <b>25 MB</b>. Pode mandar um menor? 🙏", {});
+      return;
+    }
+
+    if (data.anexo && data.anexo.url) URL.revokeObjectURL(data.anexo.url);
+    var url = URL.createObjectURL(file);
+    var midia = imagem
+      ? '<img src="' + url + '" alt="Foto enviada pelo cliente" />'
+      : '<video src="' + url + '" controls playsinline preload="metadata"></video>';
+
+    bubble(
+      '<span class="msg__anexo">' + midia + "</span>" +
+        '<small class="msg__anexo-name">📎 ' + esc(file.name) + " (" + mb(file.size) + " MB)</small>",
+      "user"
+    );
+
+    data.anexo = { file: file, tipo: imagem ? "imagem" : "video", url: url };
+
+    if (step === "descricao") {
+      say("Recebi a foto/vídeo ✅ — agora é só <b>descrever em poucas palavras</b> o problema, ou seguir em frente:", {
+        quick: [{ label: "⏭️ Seguir", action: afterDescricao }]
+      });
+    } else {
+      say("Recebi a foto/vídeo ✅", { delay: 350 });
+    }
+  }
+
+  if (attachBtn) attachBtn.addEventListener("click", pickFile);
+
+  if (fileInput) {
+    fileInput.addEventListener("change", function () {
+      var f = fileInput.files && fileInput.files[0];
+      fileInput.value = "";
+      if (f) handleFile(f);
+    });
+  }
+
   /* ---------- ações de contato ---------- */
   function openWhatsApp() {
     var lines = ["Olá! Falei pelo chat do site da HidroTech."];
     if (data.protocolo) lines.push("Protocolo: " + data.protocolo);
     if (data.servico) lines.push("Serviço: " + data.servico);
     if (data.urgencia) lines.push("Urgência: " + data.urgencia);
+    if (data.descricao) lines.push("Detalhe: " + data.descricao);
+    if (data.anexo) lines.push("Enviei uma foto/vídeo pelo chat do site");
     if (data.nome) lines.push("Nome: " + data.nome);
     if (data.endereco) lines.push("Endereço: " + data.endereco);
     window.open(
@@ -351,6 +470,17 @@
 
   /* ---------- interpretação do texto livre ---------- */
   function handleText(text) {
+    if (step === "descricao") {
+      if (/^\s*(pular|pula|pular descri[çc][ãa]o|n[ãa]o|nao|sem|skip|-{1,3})\s*$/i.test(text)) {
+        afterDescricao();
+        return;
+      }
+      data.descricao = text.trim().slice(0, 300);
+      say("✅ Anotado!", { delay: 350 });
+      afterDescricao();
+      return;
+    }
+
     if (step === "nome") {
       if (text.replace(/\s/g, "").length < 2) {
         say("Pode me dizer seu nome? 😊", {});

@@ -319,6 +319,18 @@
           if (d.endereco) h += '<p class="ord-card__end">📍 ' + esc(d.endereco) + "</p>";
           if (d.descricao) h += '<p class="ord-card__desc">“' + esc(d.descricao) + "”</p>";
 
+          if (d.anexo_url) {
+            var anexoUrl = esc(d.anexo_url);
+            if (d.anexo_tipo === "video") {
+              h += '<div class="ord-card__anexo"><span class="ord-card__anexo-label">🎬 Vídeo enviado pelo cliente</span>' +
+                '<video src="' + anexoUrl + '" controls preload="metadata"></video></div>';
+            } else {
+              h += '<div class="ord-card__anexo"><span class="ord-card__anexo-label">📷 Foto enviada pelo cliente</span>' +
+                '<a href="' + anexoUrl + '" target="_blank" rel="noopener">' +
+                '<img src="' + anexoUrl + '" alt="Foto enviada pelo cliente" loading="lazy" /></a></div>';
+            }
+          }
+
           h += '<div class="ord-card__fone">';
           if (fone) {
             h += '<a class="tag tag--fone" href="tel:+55' + esc(fone.slice(-11)) + '">📞 ' + esc(d.telefone) + "</a>";

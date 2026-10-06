@@ -178,3 +178,60 @@ grant execute on function public.atualizar_chamado(text, text, text) to authenti
 
 revoke all on function public.excluir_chamado(text) from public, anon;
 grant execute on function public.excluir_chamado(text) to authenticated;
+
+-- ============================================================
+-- Anexos do chat (foto/vídeo do local)
+-- ============================================================
+
+-- Colunas do anexo enviado pelo chat do site
+alter table public.chamados
+  add column if not exists anexo_url  text not null default '',
+  add column if not exists anexo_tipo text not null default '';
+
+-- ------------------------------------------------------------
+-- Vincula o arquivo enviado (Supabase Storage) ao chamado.
+-- Só aceita protocolo criado há menos de 24h — evita que alguém
+-- sobrescreva o anexo de um chamado antigo.
+-- ------------------------------------------------------------
+create or replace function public.anexar_chamado(
+  p_protocolo text,
+  p_url text,
+  p_tipo text default ''
+)
+returns void
+language plpgsql security definer set search_path = public, pg_catalog
+as $$
+begin
+  update public.chamados
+     set anexo_url     = left(coalesce(p_url, ''), 500),
+         anexo_tipo    = left(coalesce(p_tipo, ''), 20),
+         atualizado_em = now()
+   where protocolo = upper(trim(coalesce(p_protocolo, '')))
+     and criado_em > now() - interval '24 hours';
+end;
+$$;
+
+revoke all on function public.anexar_chamado(text, text, text) from public;
+grant execute on function public.anexar_chamado(text, text, text) to anon, authenticated;
+
+-- ------------------------------------------------------------
+-- Bucket de anexos (URL pública: só quem tem o link enxerga)
+-- ------------------------------------------------------------
+insert into storage.buckets (id, name, public)
+values ('anexos', 'anexos', true)
+on conflict (id) do update set public = true;
+
+drop policy if exists "anexos leitura publica" on storage.objects;
+create policy "anexos leitura publica"
+  on storage.objects for select
+  using (bucket_id = 'anexos');
+
+drop policy if exists "anexos upload visitante" on storage.objects;
+create policy "anexos upload visitante"
+  on storage.objects for insert to anon
+  with check (bucket_id = 'anexos');
+
+drop policy if exists "anexos upload admin" on storage.objects;
+create policy "anexos upload admin"
+  on storage.objects for insert to authenticated
+  with check (bucket_id = 'anexos');
