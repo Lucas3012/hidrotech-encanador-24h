@@ -768,8 +768,12 @@ a.contact-line:hover { background: rgba(255,255,255,.13); border-color: var(--or
   transition: transform .2s ease;
 }
 .float-btn:hover { transform: scale(1.09); }
-.float-btn--wa { background: #1fbf5a; animation: bob 2.6s ease-in-out infinite; }
-.float-btn--tel { background: var(--orange); }
+.float-btn--chat {
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  animation: bob 2.6s ease-in-out infinite;
+}
+.float-btn--wa { background: #1fbf5a; }
+.float-btn svg { display: block; pointer-events: none; }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
 /* ---------- Animação de entrada ---------- */
