@@ -75,7 +75,8 @@
     var ext = (String(file.name || "").split(".").pop() || "").toLowerCase().replace(/[^a-z0-9]/g, "");
     if (!ext || ext.length > 5) ext = /^image\//.test(file.type) ? "jpg" : "mp4";
 
-    var caminho = "chamados/" + String(protocolo || "").replace(/[^A-Za-z0-9-]/g, "") + "-" + Date.now() + "." + ext;
+    var caminho =
+      "anexos/chamados/" + String(protocolo || "").replace(/[^A-Za-z0-9-]/g, "") + "-" + Date.now() + "." + ext;
 
     return fetch(SUPA_URL + "/storage/v1/object/" + caminho, {
       method: "POST",
