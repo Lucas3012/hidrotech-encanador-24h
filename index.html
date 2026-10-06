@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Encanador 24 Horas | HidroTech — Emergência, Vazamentos e Desentupimento</title>
+  <meta name="description" content="Encanador 24 horas com atendimento de emergência 24/7. Vazamentos, desentupimento, bomba d'água e instalações. Orçamento grátis, chegada em até 40 minutos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Barra de emergência -->
+  <div class="emergency-bar">
+    <div class="container emergency-bar__inner">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      <span class="emergency-bar__text"><strong>EMERGÊNCIA AGORA?</strong> Plantão 24/7 — chegamos em até 40 minutos</span>
+      <a href="tel:+551140028922" class="emergency-bar__phone">📞 (11) 4002-8922</a>
+    </div>
+  </div>
+
+  <!-- Cabeçalho -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#inicio" class="logo">
+        <span class="logo__icon" aria-hidden="true">🔧</span>
+        <span class="logo__text">HIDRO<em>TECH</em><small>Encanamento 24h</small></span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#24-7">Atendimento 24/7</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#depoimentos">Clientes</a>
+        <a href="#faq">Dúvidas</a>
+        <a href="#contato">Contato</a>
+      </nav>
+
+      <div class="header__actions">
+        <a href="tel:+551140028922" class="btn btn--call">
+          <span class="btn__ico">📞</span> Ligar agora
+        </a>
+        <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <span class="badge">⚡ Emergência atendida em segundos — 24 horas, 7 dias</span>
+          <h1>Encanador <span class="hl">24 Horas</span> de verdade.<br />Nunca desligamos o telefone.</h1>
+          <p class="hero__lead">
+            Vazamento, cano furado, esgoto entupido ou bomba d'água parada no meio da madrugada?
+            Nossa equipe está de plantão <strong>todos os dias, a qualquer hora</strong> — inclusive feriados.
+          </p>
+
+          <div class="hero__cta">
+            <a href="tel:+551140028922" class="btn btn--primary btn--lg">
+              📞 Ligar: (11) 4002-8922
+            </a>
+            <a href="#contato" class="btn btn--ghost btn--lg">
+              Pedir orçamento grátis
+            </a>
+          </div>
+
+          <ul class="hero__stats">
+            <li><strong data-count="18">0</strong><span>anos de estrada</span></li>
+            <li><strong data-count="12400">0</strong><span>emergências resolvidas</span></li>
+            <li><strong data-count="40">0</strong><span>min de chegada média</span></li>
+            <li><strong data-count="24">0</strong><span>horas por dia</span></li>
+          </ul>
+        </div>
+
+        <aside class="hero__card" aria-label="Chamado de emergência">
+          <div class="hero__card-head">
+            <span class="pulse-dot"></span>
+            <strong>Plantão ativo agora</strong>
+          </div>
+          <p class="hero__card-time">Equipes disponíveis <b id="clock">--:--:--</b></p>
+
+          <ul class="checklist">
+            <li>Atendimento humano 24/7 — sem robô</li>
+            <li>Orçamento na hora, sem taxa de visita</li>
+            <li>Garantia de 90 dias na mão de obra</li>
+            <li>Nota fiscal e pagamento em até 12x</li>
+          </ul>
+
+          <a href="https://wa.me/551140028922?text=Ol%C3%A1!%20Preciso%20de%20um%20encanador%20agora." class="btn btn--whatsapp btn--block" target="_blank" rel="noopener">
+            Chamar no WhatsApp 24h
+          </a>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FAIXA DE CONFIANÇA -->
+    <section class="trustbar">
+      <div class="container trustbar__inner">
+        <span>✔ Equipes licenciadas</span>
+        <span>✔ Seguro de responsabilidade civil</span>
+        <span>✔ Peças originais com garantia</span>
+        <span>✔ Atendimento residencial e comercial</span>
+      </div>
+    </section>
+
+    <!-- SERVIÇOS -->
+    <section class="section" id="servicos">
+      <div class="container">
+        <div class="section__head">
+          <span class="eyebrow">O que fazemos</span>
+          <h2>Serviços de encanamento <span class="hl">a qualquer hora</span></h2>
+          <p>Do gotejamento simples ao rompimento de rede principal: resolvemos com equipe própria, ferramental completo e peças no estoque da van.</p>
+        </div>
+
+        <div class="grid grid--3">
+          <article class="card svc">
+            <div class="svc__ico">🚰</div>
+            <h3>Vazamentos e canos furados</h3>
+            <p>Detecção eletrônica de vazamento sem quebrar parede. Reparo rápido em água fria, quente e gás.</p>
+            <span class="svc__tag">Resposta em 40 min</span>
+          </article>
+
+          <article class="card svc">
+            <div class="svc__ico">🌀</div>
+            <h3>Desentupimento de esgoto</h3>
+            <p>Hidrojateamento e ralo, vaso sanitário, cozinha e caixa de gordura — sem transtorno e sem sujeira.</p>
+            <span class="svc__tag">Equipamento profissional</span>
+          </article>
+
+          <article class="card svc">
+            <div class="svc__ico">🔥</div>
+            <h3>Aquecedor e chuveiro</h3>
+            <p>Instalação, troca e manutenção de aquecedores a gás e elétricos, com teste de estanqueidade.</p>
+            <span class="svc__tag">Certificação gás</span>
+          </article>
+
+          <article class="card svc">
+            <div class="svc__ico">⚙️</div>
+            <h3>Bomba d'água e pressão</h3>
+            <p>Diagnóstico, troca de bomba, pressurizador e ajuste de pressão em prédios e residências.</p>
+            <span class="svc__tag">24 horas</span>
+          </article>
+
+          <article class="card svc">
+            <div class="svc__ico">🛁</div>
+            <h3>Reformas de banheiro</h3>
+            <p>Troca de louças, metais, registros, tubulações aparentes e embutidas com acabamento premium.</p>
+            <span class="svc__tag">Orçamento em 24h</span>
+          </article>
+
+          <article class="card svc">
+            <div class="svc__ico">🏢</div>
+            <h3>Condomínios e empresas</h3>
+            <p>Contratos de manutenção preventiva, laudos e atendimento prioritário para síndicos e gestores.</p>
+            <span class="svc__tag">Contrato mensal</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ATENDIMENTO 24/7 -->
+    <section class="section section--dark" id="24-7">
+      <div class="container split">
+        <div class="split__text">
+          <span class="eyebrow eyebrow--light">Sempre aberto</span>
+          <h2>Atendimento <span class="hl">24/7</span> — de verdade, todos os dias</h2>
+          <p>
+            Pia transbordando às 3 da manhã? Torneira que explodiu no feriado?
+            Nossa central de despacho funciona <strong>24 horas por dia, 7 dias por semana, 365 dias no ano</strong>.
+            Você fala com uma pessoa, não com uma central telefônica infinita.
+          </p>
+
+          <div class="hours">
+            <div class="hours__row"><span>Emergências (urgência vermelha)</span><b>24 h — todos os dias</b></div>
+            <div class="hours__row"><span>Segunda a sexta</span><b>07:00 às 22:00</b></div>
+            <div class="hours__row"><span>Sábados</span><b>07:00 às 18:00</b></div>
+            <div class="hours__row"><span>Domingos e feriados</span><b>Plantão 24 h</b></div>
+          </div>
+
+          <div class="chips">
+            <span class="chip">🌙 Atendimento noturno sem taxa abusiva</span>
+            <span class="chip">🚗 6 vans equipadas na região</span>
+            <span class="chip">🕐 Horário cumprido ou desconto</span>
+          </div>
+        </div>
+
+        <div class="split__panel">
+          <div class="ticket">
+            <div class="ticket__head">
+              <span class="pulse-dot"></span> Chamado ao vivo
+            </div>
+            <ul class="ticket__list">
+              <li><b>03:12</b> Cliente reporta vazamento em cozinha</li>
+              <li><b>03:13</b> Despacho aceito pelo técnico mais próximo</li>
+              <li><b>03:38</b> Chegada ao local — registro fechado</li>
+              <li><b>04:05</b> Reparo concluído e testado</li>
+              <li class="ok"><b>04:06</b> Cliente confirmou — ★★★★★</li>
+            </ul>
+            <p class="ticket__foot">Tempo total médio de resposta: <strong>40 minutos</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section class="section" id="como-funciona">
+      <div class="container">
+        <div class="section__head">
+          <span class="eyebrow">Simples assim</span>
+          <h2>Como funciona o seu chamado</h2>
+          <p>Quatro passos, zero burocracia, do primeiro "alô" ao conserto garantido.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <span class="step__num">1</span>
+            <h3>Você chama</h3>
+            <p>Telefone, WhatsApp ou formulário. Atendemos em segundos, dia ou noite.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">2</span>
+            <h3>Diagnóstico na hora</h3>
+            <p>Você descreve o problema e recebe estimativa de valor e prazo imediatamente.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">3</span>
+            <h3>Técnico a caminho</h3>
+            <p>Enviamos a van mais próxima com peças a bordo. Você recebe o rastreio por SMS.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">4</span>
+            <h3>Resolvido + garantia</h3>
+            <p>Teste final na sua frente, nota fiscal e <strong>90 dias de garantia</strong> na mão de obra.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- DEPOIMENTOS -->
+    <section class="section section--soft" id="depoimentos">
+      <div class="container">
+        <div class="section__head">
+          <span class="eyebrow">Quem já passou por isso</span>
+          <h2>Emergências resolvidas de madrugada</h2>
+        </div>
+
+        <div class="grid grid--3">
+          <figure class="card quote">
+            <div class="stars">★★★★★</div>
+            <blockquote>"Cano do lavatório rompeu 2h da manhã. Chegaram em 30 minutos, fecharam o registro e resolveram tudo antes do sol nascer. Salvaram minha casa."</blockquote>
+            <figcaption><b>Mariana Alves</b><span>Vila Mariana, São Paulo</span></figcaption>
+          </figure>
+
+          <figure class="card quote">
+            <div class="stars">★★★★★</div>
+            <blockquote>"Sou síndico e contrato mensal foi a melhor decisão. Manutenção preventiva zerou as reclamações dos moradores sobre entupimento."</blockquote>
+            <figcaption><b>Carlos Menezes</b><span>Condomínio Parque Verde</span></figcaption>
+          </figure>
+
+          <figure class="card quote">
+            <div class="stars">★★★★★</div>
+            <blockquote>"Orçamento honesto, sem enrolação nem taxa surpresa. Explicaram o problema antes de mexer e cobraram o combinado. Recomendo."</blockquote>
+            <figcaption><b>Renata Souza</b><span>Osasco, SP</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="container narrow">
+        <div class="section__head">
+          <span class="eyebrow">Dúvidas frequentes</span>
+          <h2>Perguntas antes de chamar</h2>
+        </div>
+
+        <div class="faq" id="faqList">
+          <details class="faq__item">
+            <summary>Vocês realmente atendem de madrugada e em feriados?<span class="faq__plus"></span></summary>
+            <p>Sim. A central de despacho funciona 24 horas por dia, todos os dias do ano. À noite, madrugada, domingo e feriado, uma equipe de plantão é acionada imediatamente.</p>
+          </details>
+
+          <details class="faq__item">
+            <summary>Existe taxa para visita técnica?<span class="faq__plus"></span></summary>
+            <p>Não cobramos taxa de visita para emergências. O orçamento é gratuito e, se você aprovar o serviço, o valor já está incluso. Caso opte por não prosseguir, também não há cobrança.</p>
+          </details>
+
+          <details class="faq__item">
+            <summary>Em quanto tempo o técnico chega?<span class="faq__plus"></span></summary>
+            <p>A média na região é de 40 minutos para urgências. Nos horários de pico ou dias muito movimentados, informamos o prazo exato já na ligação.</p>
+          </details>
+
+          <details class="faq__item">
+            <summary>O serviço tem garantia?<span class="faq__plus"></span></summary>
+            <p>Toda mão de obra tem 90 dias de garantia por escrito. Peças seguem a garantia do fabricante. Se o mesmo problema voltar, voltamos sem custo.</p>
+          </details>
+
+          <details class="faq__item">
+            <summary>Quais formas de pagamento vocês aceitam?<span class="faq__plus"></span></summary>
+            <p>Pix, dinheiro, débito, crédito em até 12x e fatura para empresas e condomínios com nota fiscal.</p>
+          </details>
+
+          <details class="faq__item">
+            <summary>Atendem quais regiões?<span class="faq__plus"></span></summary>
+            <p>Toda a capital e região metropolitana — São Paulo, Osasco, Barueri, Santo André, Guarulhos, São Bernardo e ABC. Para outras cidades, consulte pelo WhatsApp.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO / CHAMADO -->
+    <section class="section section--dark" id="contato">
+      <div class="container split split--reverse">
+        <div class="split__text">
+          <span class="eyebrow eyebrow--light">Abra seu chamado</span>
+          <h2>Peça agora — resposta em <span class="hl">até 5 minutos</span></h2>
+          <p>Preencha os dados e nossa central entra em contato imediatamente. Para urgências, ligue ou chame no WhatsApp: é mais rápido.</p>
+
+          <div class="contact-lines">
+            <a href="tel:+551140028922" class="contact-line"><span>Telefone 24h</span><b>(11) 4002-8922</b></a>
+            <a href="https://wa.me/551140028922" class="contact-line" target="_blank" rel="noopener"><span>WhatsApp</span><b>(11) 94002-8922</b></a>
+            <a href="mailto:contato@hidrotech.com.br" class="contact-line"><span>E-mail</span><b>contato@hidrotech.com.br</b></a>
+            <div class="contact-line"><span>Base</span><b>Rua das Palmeiras, 450 — São Paulo/SP</b></div>
+          </div>
+        </div>
+
+        <div class="split__panel">
+          <form class="form card" id="callForm" novalidate>
+            <h3>Solicitar atendimento</h3>
+
+            <div class="field">
+              <label for="nome">Nome</label>
+              <input id="nome" name="nome" type="text" placeholder="Seu nome completo" required />
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="fone">Telefone / WhatsApp</label>
+                <input id="fone" name="fone" type="tel" placeholder="(11) 90000-0000" required />
+              </div>
+              <div class="field">
+                <label for="tipo">Tipo de serviço</label>
+                <select id="tipo" name="tipo" required>
+                  <option value="">Selecione</option>
+                  <option>🔥 Emergência / vazamento</option>
+                  <option>🌀 Desentupimento</option>
+                  <option>⚙️ Bomba d'água</option>
+                  <option>🔥 Aquecedor / chuveiro</option>
+                  <option>🛁 Reforma de banheiro</option>
+                  <option>🏢 Contrato / condomínio</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="msg">Descreva o problema</label>
+              <textarea id="msg" name="msg" rows="4" placeholder="Ex.: água vazando embaixo da pia da cozinha desde as 2h da manhã..."></textarea>
+            </div>
+
+            <label class="check">
+              <input type="checkbox" id="urgente" checked />
+              <span>É uma <b>emergência</b> — preciso de resposta imediata</span>
+            </label>
+
+            <button type="submit" class="btn btn--primary btn--block btn--lg">Enviar chamado 24h</button>
+            <p class="form__note" id="formNote">🔒 Seus dados ficam seguros. Sem spam.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="cta-final">
+      <div class="container cta-final__inner">
+        <div>
+          <h2>Travou? Furou? Transbordou?</h2>
+          <p>Ligue agora — alguém do outro lado sempre atende.</p>
+        </div>
+        <a href="tel:+551140028922" class="btn btn--white btn--lg">📞 (11) 4002-8922</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <a href="#inicio" class="logo logo--light">
+          <span class="logo__icon">🔧</span>
+          <span class="logo__text">HIDRO<em>TECH</em><small>Encanamento 24h</small></span>
+        </a>
+        <p class="footer__about">Empresa familiar de encanamento com 18 anos de atuação na Grande São Paulo. Equipe própria, licenciada e de plantão 24 horas por dia.</p>
+      </div>
+
+      <div>
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#servicos">Vazamentos</a></li>
+          <li><a href="#servicos">Desentupimento</a></li>
+          <li><a href="#servicos">Bomba d'água</a></li>
+          <li><a href="#servicos">Aquecedores</a></li>
+          <li><a href="#servicos">Reformas</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#24-7">Atendimento 24/7</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#depoimentos">Clientes</a></li>
+          <li><a href="#faq">Dúvidas</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contato 24 horas</h4>
+        <ul>
+          <li>📞 <a href="tel:+551140028922">(11) 4002-8922</a></li>
+          <li>💬 <a href="https://wa.me/551140028922" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li>✉️ <a href="mailto:contato@hidrotech.com.br">contato@hidrotech.com.br</a></li>
+          <li>📍 Rua das Palmeiras, 450 — SP</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer__bottom">
+      <p>© <span id="year">2026</span> HidroTech Encanamento — CNPJ 12.345.678/0001-90 — Todos os direitos reservados.</p>
+      <p>Atendimento 24h, 7 dias, inclusive feriados.</p>
+    </div>
+  </footer>
+
+  <!-- Botões flutuantes -->
+  <div class="floats">
+    <a href="https://wa.me/551140028922?text=Ol%C3%A1!%20Preciso%20de%20um%20encanador." class="float-btn float-btn--wa" target="_blank" rel="noopener" aria-label="WhatsApp 24h">
+      💬
+    </a>
+    <a href="tel:+551140028922" class="float-btn float-btn--tel" aria-label="Ligar agora">📞</a>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

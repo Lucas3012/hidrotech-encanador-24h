@@ -1,0 +1,17 @@
+# Deploy do site estático no Render (Static Site)
+# https://render.com/docs/static-sites
+services:
+  - type: static-site
+    name: hidrotech-encanador-24h
+    runtime: static
+    staticPublishPath: .
+    buildCommand: ""
+    headers:
+      - path: /*
+        headers:
+          - key: Cache-Control
+            value: "public, max-age=3600"
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
