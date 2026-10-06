@@ -84,7 +84,6 @@
         apikey: SUPA_KEY,
         Authorization: "Bearer " + SUPA_KEY,
         "Content-Type": file.type || "application/octet-stream",
-        "x-upsert": "true",
       },
       body: file,
     }).then(function (res) {
