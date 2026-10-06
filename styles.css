@@ -177,13 +177,14 @@ ul, ol { list-style: none; }
 .logo--light .logo__icon { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.15); }
 .logo--light .logo__text small { color: #8fa8cc; }
 
-.nav { display: flex; gap: 1.15rem; }
+.nav { display: flex; gap: 1.15rem; flex-wrap: nowrap; }
 .nav a {
   font-size: .93rem;
   font-weight: 600;
   color: var(--muted);
   position: relative;
   padding: .2rem 0;
+  white-space: nowrap;
 }
 .nav a::after {
   content: "";
@@ -785,7 +786,7 @@ a.contact-line:hover { background: rgba(255,255,255,.13); border-color: var(--or
   .footer__grid { grid-template-columns: 1fr 1fr; }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .nav {
     position: fixed;
     top: 0; right: -100%;
