@@ -443,12 +443,35 @@
 
   <!-- Botões flutuantes -->
   <div class="floats">
-    <a href="https://wa.me/5573981070937?text=Ol%C3%A1!%20Preciso%20de%20um%20encanador." class="float-btn float-btn--wa" target="_blank" rel="noopener" aria-label="WhatsApp 24h">
+    <button type="button" class="float-btn float-btn--wa" id="chatToggle" aria-label="Abrir atendimento online" aria-expanded="false" aria-controls="chatPanel">
       💬
-    </a>
+      <span class="chat__badge" id="chatBadge">1</span>
+    </button>
     <a href="tel:+5573981070937" class="float-btn float-btn--tel" aria-label="Ligar agora">📞</a>
   </div>
 
+  <!-- Atendimento no site (bot) -->
+  <section class="chat__panel" id="chatPanel" aria-label="Atendimento HidroTech" hidden>
+    <header class="chat__head">
+      <span class="chat__avatar" aria-hidden="true">🛠️</span>
+      <span class="chat__who">
+        <b>HidroTech · Atendimento</b>
+        <small><i class="chat__dot"></i> Plantão 24h — respondendo agora</small>
+      </span>
+      <button type="button" class="chat__close" id="chatClose" aria-label="Fechar atendimento">✕</button>
+    </header>
+
+    <div class="chat__msgs" id="chatMsgs" role="log" aria-live="polite" aria-label="Conversa"></div>
+
+    <div class="chat__quick" id="chatQuick" aria-label="Opções rápidas"></div>
+
+    <form class="chat__form" id="chatForm" autocomplete="off">
+      <input type="text" id="chatInput" placeholder="Escreva sua mensagem…" aria-label="Mensagem" />
+      <button type="submit" aria-label="Enviar mensagem">➤</button>
+    </form>
+  </section>
+
   <script src="script.js"></script>
+  <script src="chat.js"></script>
 </body>
 </html>
