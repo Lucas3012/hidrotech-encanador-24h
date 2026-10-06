@@ -13,3 +13,9 @@ Desktop.ini
 
 # Logs
 *.log
+
+# Credenciais locais
+.env
+.env.*
+*.local
+
