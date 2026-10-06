@@ -189,21 +189,63 @@
       }
 
       const urgente = document.getElementById("urgente");
-      form.classList.add("is-sent");
-      if (note) {
-        note.textContent = urgente && urgente.checked
-          ? "✅ Chamado de EMERGÊNCIA registrado! Nossa central liga em instantes."
-          : "✅ Chamado recebido! Entraremos em contato em até 5 minutos.";
-        note.style.color = "#0b8a3d";
-      }
+      const desc = document.getElementById("msg");
+
+      const dados = {
+        nome: nome.value.trim(),
+        telefone: fone ? fone.value.trim() : "",
+        servico: tipo.value,
+        urgencia: urgente && urgente.checked ? "Emergência — agora" : "Normal",
+        endereco: "",
+        descricao: desc ? desc.value.trim() : "",
+        origem: "formulario",
+      };
 
       const btn = form.querySelector('button[type="submit"]');
       if (btn) {
-        btn.textContent = "Chamado enviado ✔";
         btn.disabled = true;
+        btn.textContent = "Registrando…";
+      }
+      if (note) {
+        note.textContent = "Enviando seu chamado para a central…";
+        note.style.color = "";
       }
 
-      form.reset();
+      const concluir = (protocolo, falhou) => {
+        if (note) {
+          if (falhou) {
+            note.textContent =
+              "⚠️ Não conseguimos registrar online agora. Chame no WhatsApp que registramos na hora.";
+            note.style.color = "#d63b1f";
+          } else if (urgente && urgente.checked) {
+            note.textContent =
+              "✅ EMERGÊNCIA registrada! Protocolo " + protocolo +
+              " — nossa central liga em instantes.";
+            note.style.color = "#0b8a3d";
+          } else {
+            note.textContent =
+              "✅ Chamado recebido! Protocolo: " + protocolo +
+              " — acompanhe o status na aba Pedidos.";
+            note.style.color = "#0b8a3d";
+          }
+        }
+        if (btn) {
+          btn.textContent = falhou ? "Tentar de novo" : "Chamado enviado ✔";
+          btn.disabled = !falhou;
+        }
+        if (!falhou) {
+          form.classList.add("is-sent");
+          form.reset();
+        }
+      };
+
+      if (window.HidroDB) {
+        window.HidroDB.criarChamado(dados)
+          .then((protocolo) => concluir(protocolo, false))
+          .catch(() => concluir("", true));
+      } else {
+        concluir("", true);
+      }
     });
 
     form.querySelectorAll("input, select").forEach((f) =>

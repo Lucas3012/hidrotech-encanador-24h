@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel de Pedidos — HidroTech (área restrita)</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="adm-body">
+
+  <!-- LOGIN -->
+  <section class="adm-login" id="loginView">
+    <div class="adm-login__card">
+      <div class="adm-login__brand">
+        <span class="logo__icon" aria-hidden="true">🔧</span>
+        <b>HIDRO<em>TECH</em></b>
+        <small>Encanamento 24h</small>
+      </div>
+
+      <h1>Área restrita</h1>
+      <p>Entre para ver e atualizar os pedidos dos clientes.</p>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="admUser">Usuário</label>
+          <input id="admUser" type="text" autocomplete="username" placeholder="lucas" required />
+        </div>
+        <div class="field">
+          <label for="admPass">Senha</label>
+          <input id="admPass" type="password" autocomplete="current-password" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn--primary btn--block btn--lg" id="loginBtn">Entrar</button>
+        <p class="adm-login__msg" id="loginMsg"></p>
+      </form>
+
+      <a class="adm-login__back" href="index.html">← Voltar para o site</a>
+    </div>
+  </section>
+
+  <!-- PAINEL -->
+  <section class="adm" id="dashView" hidden>
+    <header class="adm__top">
+      <div class="adm__brand">
+        <span class="logo__icon" aria-hidden="true">🔧</span>
+        <span><b>HIDRO<em>TECH</em></b><small>Painel de pedidos</small></span>
+      </div>
+      <div class="adm__top-actions">
+        <span class="adm__who" id="admWho"></span>
+        <a href="index.html" class="btn btn--ghost btn--sm">Ver site</a>
+        <button type="button" class="btn btn--ghost btn--sm" id="logoutBtn">Sair</button>
+      </div>
+    </header>
+
+    <main class="adm__main">
+      <div class="adm__stats" id="admStats"></div>
+
+      <div class="adm__toolbar">
+        <input type="search" id="admSearch" placeholder="Buscar por protocolo, cliente ou telefone…" aria-label="Buscar pedidos" />
+        <select id="admFilter" aria-label="Filtrar por status">
+          <option value="">Todos os status</option>
+          <option value="recebido">Recebido</option>
+          <option value="em_atendimento">Em atendimento</option>
+          <option value="a_caminho">A caminho</option>
+          <option value="concluido">Concluído</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+        <button type="button" class="btn btn--soft btn--sm" id="refreshBtn">⟳ Atualizar</button>
+        <button type="button" class="btn btn--primary btn--sm" id="newBtn">+ Novo chamado</button>
+      </div>
+
+      <p class="adm__updated" id="admUpdated"></p>
+      <div class="adm__list" id="admList"></div>
+    </main>
+  </section>
+
+  <!-- MODAL NOVO CHAMADO -->
+  <div class="adm-modal" id="newModal" hidden>
+    <div class="adm-modal__box" role="dialog" aria-modal="true" aria-label="Novo chamado">
+      <h3>Registrar chamado manual</h3>
+      <p class="adm-modal__hint">Use para pedidos que chegaram só no WhatsApp ou por telefone.</p>
+      <form id="newForm" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label for="nNome">Nome</label>
+            <input id="nNome" type="text" placeholder="Nome do cliente" />
+          </div>
+          <div class="field">
+            <label for="nFone">Telefone / WhatsApp</label>
+            <input id="nFone" type="tel" placeholder="(73) 99999-9999" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="nServico">Serviço</label>
+            <select id="nServico">
+              <option>Emergência / vazamento</option>
+              <option>Desentupimento</option>
+              <option>Bomba d'água</option>
+              <option>Aquecedor / chuveiro</option>
+              <option>Reforma de banheiro</option>
+              <option>Contrato / condomínio</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="nUrg">Urgência</label>
+            <select id="nUrg">
+              <option>Normal</option>
+              <option>Emergência — agora</option>
+              <option>Agendado</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="nEnd">Endereço</label>
+          <input id="nEnd" type="text" placeholder="Rua, bairro e ponto de referência" />
+        </div>
+        <div class="field">
+          <label for="nDesc">Descrição</label>
+          <textarea id="nDesc" rows="3" placeholder="O que o cliente relatou…"></textarea>
+        </div>
+        <div class="adm-modal__actions">
+          <button type="button" class="btn btn--soft btn--sm" id="newCancel">Cancelar</button>
+          <button type="submit" class="btn btn--primary btn--sm" id="newSave">Salvar chamado</button>
+        </div>
+        <p class="adm-login__msg" id="newMsg"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var loginView = document.getElementById("loginView");
+      var dashView = document.getElementById("dashView");
+      var loginForm = document.getElementById("loginForm");
+      var loginBtn = document.getElementById("loginBtn");
+      var loginMsg = document.getElementById("loginMsg");
+      var statsBox = document.getElementById("admStats");
+      var listBox = document.getElementById("admList");
+      var updated = document.getElementById("admUpdated");
+      var search = document.getElementById("admSearch");
+      var filter = document.getElementById("admFilter");
+      var modal = document.getElementById("newModal");
+      var newForm = document.getElementById("newForm");
+      var newMsg = document.getElementById("newMsg");
+
+      var STATUS = [
+        { key: "recebido", label: "Recebido" },
+        { key: "em_atendimento", label: "Em atendimento" },
+        { key: "a_caminho", label: "A caminho" },
+        { key: "concluido", label: "Concluído" },
+        { key: "cancelado", label: "Cancelado" }
+      ];
+
+      var ORIGENS = {
+        chat: "💬 Chat do site",
+        whatsapp: "📱 WhatsApp",
+        formulario: "📋 Formulário",
+        site: "🌐 Site",
+        telefone: "📞 Telefone",
+        manual: "✍️ Manual"
+      };
+
+      var dados = [];
+      var carregando = false;
+
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+        });
+      }
+
+      function foneDigits(s) { return String(s || "").replace(/\D/g, ""); }
+
+      function dataBR(iso) {
+        if (!iso) return "—";
+        try {
+          return new Date(iso).toLocaleString("pt-BR", {
+            day: "2-digit", month: "2-digit", year: "numeric",
+            hour: "2-digit", minute: "2-digit"
+          });
+        } catch (e) { return "—"; }
+      }
+
+      function statusLabel(key) {
+        var s = STATUS.find(function (x) { return x.key === key; });
+        return s ? s.label : key;
+      }
+
+      function mostrarLogin(mensagem) {
+        dashView.hidden = true;
+        loginView.style.display = "";
+        if (mensagem) loginMsg.textContent = mensagem;
+      }
+
+      function mostrarPainel(sess) {
+        loginView.style.display = "none";
+        dashView.hidden = false;
+        document.getElementById("admWho").textContent =
+          (sess && sess.user && sess.user.email) || "admin";
+        carregar();
+      }
+
+      /* ---------- Login ---------- */
+      loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var u = document.getElementById("admUser").value.trim();
+        var p = document.getElementById("admPass").value;
+        if (!u || !p) { loginMsg.textContent = "Preencha usuário e senha."; return; }
+
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Verificando…";
+        loginMsg.textContent = "";
+
+        window.HidroDB.login(u, p)
+          .then(function (sess) {
+            document.getElementById("admPass").value = "";
+            mostrarPainel(sess);
+          })
+          .catch(function (err) {
+            loginMsg.textContent = "⚠️ " + (err.message || "Usuário ou senha inválidos.");
+          })
+          .finally(function () {
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Entrar";
+          });
+      });
+
+      document.getElementById("logoutBtn").addEventListener("click", function () {
+        window.HidroDB.logout();
+        mostrarLogin("Sessão encerrada.");
+      });
+
+      /* ---------- Carga de dados ---------- */
+      function carregar() {
+        if (carregando) return;
+        carregando = true;
+        updated.textContent = "Carregando pedidos…";
+
+        window.HidroDB.listarChamados()
+          .then(function (linhas) {
+            dados = Array.isArray(linhas) ? linhas : [];
+            render();
+            updated.textContent = "Atualizado às " +
+              new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+          })
+          .catch(function (err) {
+            if (err && (err.naoLogado || err.status === 401)) {
+              window.HidroDB.logout();
+              mostrarLogin("Sua sessão expirou — entre novamente.");
+            } else {
+              updated.textContent = "⚠️ Não foi possível carregar. Clique em Atualizar.";
+            }
+          })
+          .finally(function () { carregando = false; });
+      }
+
+      function filtrados() {
+        var termo = (search.value || "").toLowerCase().trim();
+        var st = filter.value;
+        return dados.filter(function (d) {
+          if (st && d.status !== st) return false;
+          if (!termo) return true;
+          return [d.protocolo, d.nome, d.telefone, d.servico, d.endereco]
+            .join(" ").toLowerCase().indexOf(termo) !== -1;
+        });
+      }
+
+      function render() {
+        /* estatísticas */
+        var conta = function (k) { return dados.filter(function (d) { return d.status === k; }).length; };
+        var pend = dados.filter(function (d) { return d.status === "recebido" || d.status === "em_atendimento"; }).length;
+        statsBox.innerHTML =
+          stat("Total de pedidos", dados.length, "todos") +
+          stat("Aguardando / em atendimento", pend, "recebido") +
+          stat("A caminho", conta("a_caminho"), "a_caminho") +
+          stat("Concluídos", conta("concluido"), "concluido");
+
+        /* lista */
+        var lista = filtrados();
+        if (!lista.length) {
+          listBox.innerHTML = '<div class="ord-card ord-card--empty">Nenhum pedido encontrado com esses filtros.</div>';
+          return;
+        }
+
+        listBox.innerHTML = lista.map(function (d) {
+          var fone = foneDigits(d.telefone);
+          var urgente = /emerg/i.test(d.urgencia || "");
+          var origem = ORIGENS[d.origem] || d.origem || "—";
+
+          var h = '<article class="ord-card" data-proto="' + esc(d.protocolo) + '">';
+          h += '<header class="ord-card__head">';
+          h += '<span class="ord-card__proto">' + esc(d.protocolo) + "</span>";
+          h += '<select class="ord-card__status is-' + esc(d.status) + '" data-role="status" aria-label="Mudar status">';
+          STATUS.forEach(function (s) {
+            h += '<option value="' + s.key + '"' + (s.key === d.status ? " selected" : "") + ">" + s.label + "</option>";
+          });
+          h += "</select>";
+          h += "</header>";
+
+          h += '<div class="ord-card__who"><b>' + esc(d.nome || "Sem nome") + "</b>";
+          if (urgente) h += ' <span class="tag tag--urg">🚨 EMERGÊNCIA</span>';
+          h += "</div>";
+
+          h += '<div class="ord-card__meta">';
+          h += "<span>🛠️ " + esc(d.servico || "—") + "</span>";
+          h += "<span>🏷️ " + esc(origem) + "</span>";
+          h += "<span>🕒 " + esc(dataBR(d.criado_em)) + "</span>";
+          h += "</div>";
+
+          if (d.endereco) h += '<p class="ord-card__end">📍 ' + esc(d.endereco) + "</p>";
+          if (d.descricao) h += '<p class="ord-card__desc">“' + esc(d.descricao) + "”</p>";
+
+          h += '<div class="ord-card__fone">';
+          if (fone) {
+            h += '<a class="tag tag--fone" href="tel:+55' + esc(fone.slice(-11)) + '">📞 ' + esc(d.telefone) + "</a>";
+            h += '<a class="tag tag--wa" target="_blank" rel="noopener" href="https://wa.me/55' +
+              esc(fone.slice(-11)) + "?text=" + encodeURIComponent("Olá! Aqui é a HidroTech sobre o chamado " + d.protocolo + ".") +
+              '">WhatsApp</a>';
+          } else {
+            h += "<span class=\"tag\">sem telefone</span>";
+          }
+          h += "</div>";
+
+          h += '<label class="ord-card__nota-label">Recado para o cliente</label>';
+          h += '<textarea class="ord-card__nota" data-role="nota" rows="2" placeholder="Ex.: Equipe a caminho, chega em 30 min.">' + esc(d.nota || "") + "</textarea>";
+
+          h += '<footer class="ord-card__foot">';
+          h += '<button type="button" class="btn btn--primary btn--sm" data-role="salvar">Salvar</button>';
+          h += '<button type="button" class="btn btn--soft btn--sm" data-role="excluir">Excluir</button>';
+          h += '<span class="ord-card__ok" data-role="ok"></span>';
+          h += "</footer>";
+          h += "</article>";
+          return h;
+        }).join("");
+      }
+
+      function stat(titulo, valor, chave) {
+        return '<button type="button" class="stat" data-status="' + chave + '">' +
+          "<b>" + valor + "</b><span>" + titulo + "</span></button>";
+      }
+
+      statsBox.addEventListener("click", function (e) {
+        var b = e.target.closest(".stat");
+        if (!b) return;
+        filter.value = b.dataset.status === "todos" ? "" : b.dataset.status;
+        render();
+      });
+
+      search.addEventListener("input", render);
+      filter.addEventListener("change", render);
+      document.getElementById("refreshBtn").addEventListener("click", carregar);
+
+      /* ---------- Ações por card ---------- */
+      listBox.addEventListener("click", function (e) {
+        var card = e.target.closest(".ord-card");
+        if (!card) return;
+        var proto = card.dataset.proto;
+        var role = e.target.dataset ? e.target.dataset.role : null;
+        if (!role) return;
+
+        var ok = card.querySelector('[data-role="ok"]');
+        var nota = card.querySelector('[data-role="nota"]');
+        var status = card.querySelector('[data-role="status"]');
+
+        if (role === "salvar") {
+          e.target.disabled = true;
+          window.HidroDB.atualizarChamado(proto, status.value, nota.value)
+            .then(function () {
+              ok.textContent = "✔ salvo";
+              card.querySelector(".ord-card__status").className =
+                "ord-card__status is-" + status.value;
+              setTimeout(function () { ok.textContent = ""; }, 2500);
+            })
+            .catch(function (err) {
+              ok.textContent = err && err.naoLogado ? "faça login" : "erro ao salvar";
+              ok.classList.add("is-erro");
+            })
+            .finally(function () { e.target.disabled = false; });
+        }
+
+        if (role === "excluir") {
+          if (!confirm("Excluir o chamado " + proto + "? Essa ação não pode ser desfeita.")) return;
+          e.target.disabled = true;
+          window.HidroDB.excluirChamado(proto)
+            .then(function () {
+              dados = dados.filter(function (d) { return d.protocolo !== proto; });
+              render();
+            })
+            .catch(function () {
+              ok.textContent = "erro ao excluir";
+              e.target.disabled = false;
+            });
+        }
+      });
+
+      /* status muda ao selecionar (salva junto no botão Salvar) */
+      listBox.addEventListener("change", function (e) {
+        if (e.target.dataset && e.target.dataset.role === "status") {
+          e.target.className = "ord-card__status is-" + e.target.value;
+        }
+      });
+
+      /* ---------- Modal novo chamado ---------- */
+      document.getElementById("newBtn").addEventListener("click", function () {
+        newMsg.textContent = "";
+        modal.hidden = false;
+        document.getElementById("nNome").focus();
+      });
+      document.getElementById("newCancel").addEventListener("click", function () { modal.hidden = true; });
+      modal.addEventListener("click", function (e) { if (e.target === modal) modal.hidden = true; });
+
+      newForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var nome = document.getElementById("nNome").value.trim();
+        if (!nome) { newMsg.textContent = "Informe o nome do cliente."; return; }
+
+        window.HidroDB.criarChamado({
+          nome: nome,
+          telefone: document.getElementById("nFone").value.trim(),
+          servico: document.getElementById("nServico").value,
+          urgencia: document.getElementById("nUrg").value,
+          endereco: document.getElementById("nEnd").value.trim(),
+          descricao: document.getElementById("nDesc").value.trim(),
+          origem: "manual"
+        })
+          .then(function (proto) {
+            modal.hidden = true;
+            newForm.reset();
+            updated.textContent = "Chamado " + proto + " criado ✔";
+            carregar();
+          })
+          .catch(function () { newMsg.textContent = "⚠️ Não foi possível salvar. Tente de novo."; });
+      });
+
+      /* ---------- Início ---------- */
+      var sess = window.HidroDB.sessaoAtual();
+      if (sess) mostrarPainel(sess);
+      else mostrarLogin();
+
+      setInterval(function () { if (!dashView.hidden && modal.hidden) carregar(); }, 45000);
+    })();
+  </script>
+</body>
+</html>

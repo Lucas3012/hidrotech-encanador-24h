@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedidos | Acompanhe seu chamado — HidroTech Encanador 24h</title>
+  <meta name="description" content="Consulte o status do seu chamado HidroTech pelo protocolo. Acompanhe se o pedido feito pelo chat ou WhatsApp já foi recebido, está em atendimento ou a caminho." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Barra de emergência -->
+  <div class="emergency-bar">
+    <div class="container emergency-bar__inner">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      <span class="emergency-bar__text"><strong>EMERGÊNCIA AGORA?</strong> Plantão 24/7 — chegamos em até 40 minutos</span>
+      <a href="tel:+5573981070937" class="emergency-bar__phone">📞 (73) 98107-0937</a>
+    </div>
+  </div>
+
+  <!-- Cabeçalho -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="index.html" class="logo">
+        <span class="logo__icon" aria-hidden="true">🔧</span>
+        <span class="logo__text">HIDRO<em>TECH</em><small>Encanamento 24h</small></span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Navegação principal">
+        <a href="index.html#inicio">Início</a>
+        <a href="index.html#servicos">Serviços</a>
+        <a href="index.html#24-7">Atendimento 24/7</a>
+        <a href="pedidos.html" aria-current="page"><strong>Pedidos</strong></a>
+        <a href="index.html#faq">Dúvidas</a>
+        <a href="index.html#contato">Contato</a>
+      </nav>
+
+      <div class="header__actions">
+        <a href="tel:+5573981070937" class="btn btn--call">
+          <span class="btn__ico">📞</span> Ligar agora
+        </a>
+        <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- INTRO -->
+    <section class="page-hero">
+      <div class="container">
+        <span class="eyebrow">Pedidos</span>
+        <h1>Acompanhe seu <span class="hl">chamado</span></h1>
+        <p>
+          Digite o protocolo que você recebeu no final do atendimento pelo chat, no WhatsApp
+          ou na confirmação da central. O status atualiza na hora.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONSULTA -->
+    <section class="section">
+      <div class="container container--narrow">
+
+        <form class="card lookup" id="lookupForm" novalidate>
+          <label for="protocolo">Protocolo do chamado</label>
+          <div class="lookup__row">
+            <input id="protocolo" name="protocolo" type="text" placeholder="HIDRO-XXXXX" autocomplete="off" spellcheck="false" />
+            <button type="submit" class="btn btn--primary" id="lookupBtn">Consultar status</button>
+          </div>
+          <p class="lookup__hint" id="lookupHint">
+            Exemplo: <b>HIDRO-K7M2P</b>. Quem fala pelo WhatsApp recebe o protocolo na própria conversa.
+          </p>
+        </form>
+
+        <div id="lookupResult" class="lookup__result" hidden></div>
+
+        <div class="card lookup__help">
+          <div>
+            <h3>Não tem o protocolo?</h3>
+            <p>Não tem problema — chame a gente que localizamos seu chamado pelo telefone.</p>
+          </div>
+          <div class="lookup__help-actions">
+            <a class="btn btn--whatsapp" href="https://wa.me/5573981070937?text=Ol%C3%A1!%20Preciso%20localizar%20meu%20chamado." target="_blank" rel="noopener">💬 WhatsApp 24h</a>
+            <a class="btn btn--soft" href="tel:+5573981070937">📞 (73) 98107-0937</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <a href="index.html" class="logo logo--light">
+          <span class="logo__icon">🔧</span>
+          <span class="logo__text">HIDRO<em>TECH</em><small>Encanamento 24h</small></span>
+        </a>
+        <p class="footer__about">Empresa familiar de encanamento com 18 anos de atuação em Itapé, Ilhéus e Itabuna. Equipe própria, licenciada e de plantão 24 horas por dia.</p>
+      </div>
+
+      <div>
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="index.html#servicos">Vazamentos</a></li>
+          <li><a href="index.html#servicos">Desentupimento</a></li>
+          <li><a href="index.html#servicos">Bomba d'água</a></li>
+          <li><a href="index.html#servicos">Aquecedores</a></li>
+          <li><a href="index.html#servicos">Reformas</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Atendimento</h4>
+        <ul>
+          <li><a href="pedidos.html"><strong>Acompanhar pedido</strong></a></li>
+          <li><a href="index.html#24-7">Atendimento 24/7</a></li>
+          <li><a href="index.html#como-funciona">Como funciona</a></li>
+          <li><a href="index.html#faq">Dúvidas</a></li>
+          <li><a href="admin.html">Área restrita</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contato 24 horas</h4>
+        <ul>
+          <li>📞 <a href="tel:+5573981070937">(73) 98107-0937</a></li>
+          <li>💬 <a href="https://wa.me/5573981070937" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li>✉️ <a href="mailto:lukinhas87.let@gmail.com">lukinhas87.let@gmail.com</a></li>
+          <li>📍 Rua 21 de Abril, Bairro Cândido Bispo — Itapé/BA</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer__bottom">
+      <p>© <span id="year">2026</span> HidroTech Encanamento — CNPJ 12.345.678/0001-90 — Todos os direitos reservados.</p>
+      <p>Atendimento 24h, 7 dias, inclusive feriados.</p>
+    </div>
+  </footer>
+
+  <!-- Botões flutuantes -->
+  <div class="floats">
+    <button type="button" class="float-btn float-btn--chat" id="chatToggle" aria-label="Abrir atendimento online" aria-expanded="false" aria-controls="chatPanel">
+      💬
+      <span class="chat__badge is-hidden" id="chatBadge">1</span>
+    </button>
+    <a href="https://wa.me/5573981070937?text=Ol%C3%A1!%20Preciso%20de%20um%20encanador." class="float-btn float-btn--wa" target="_blank" rel="noopener" aria-label="Falar no WhatsApp 24h">
+      <svg viewBox="0 0 24 24" width="27" height="27" fill="#fff" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
+    </a>
+  </div>
+
+  <!-- Atendimento no site (bot) -->
+  <section class="chat__panel" id="chatPanel" aria-label="Atendimento HidroTech" hidden>
+    <header class="chat__head">
+      <span class="chat__avatar" aria-hidden="true">🛠️</span>
+      <span class="chat__who">
+        <b>HidroTech · Atendimento</b>
+        <small><i class="chat__dot"></i> Plantão 24h — respondendo agora</small>
+      </span>
+      <button type="button" class="chat__close" id="chatClose" aria-label="Fechar atendimento">✕</button>
+    </header>
+
+    <div class="chat__msgs" id="chatMsgs" role="log" aria-live="polite" aria-label="Conversa"></div>
+
+    <div class="chat__quick" id="chatQuick" aria-label="Opções rápidas"></div>
+
+    <form class="chat__form" id="chatForm" autocomplete="off">
+      <input type="text" id="chatInput" placeholder="Escreva sua mensagem…" aria-label="Mensagem" />
+      <button type="submit" aria-label="Enviar mensagem">➤</button>
+    </form>
+  </section>
+
+  <script src="db.js"></script>
+  <script src="script.js"></script>
+  <script src="chat.js"></script>
+  <script>
+    /* Consulta de status por protocolo */
+    (function () {
+      "use strict";
+
+      var form = document.getElementById("lookupForm");
+      var input = document.getElementById("protocolo");
+      var hint = document.getElementById("lookupHint");
+      var btn = document.getElementById("lookupBtn");
+      var box = document.getElementById("lookupResult");
+
+      var PASSOS = [
+        { key: "recebido", titulo: "Recebido", desc: "Chamado na central" },
+        { key: "em_atendimento", titulo: "Em atendimento", desc: "Atendente analisando" },
+        { key: "a_caminho", titulo: "A caminho", desc: "Equipe a caminho" },
+        { key: "concluido", titulo: "Concluído", desc: "Serviço finalizado" }
+      ];
+
+      var ROTULOS = {
+        recebido: "Recebido",
+        em_atendimento: "Em atendimento",
+        a_caminho: "A caminho",
+        concluido: "Concluído",
+        cancelado: "Cancelado"
+      };
+
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+        });
+      }
+
+      function dataBR(iso) {
+        if (!iso) return "—";
+        try {
+          return new Date(iso).toLocaleString("pt-BR", {
+            day: "2-digit", month: "2-digit", year: "numeric",
+            hour: "2-digit", minute: "2-digit"
+          });
+        } catch (e) {
+          return "—";
+        }
+      }
+
+      function render(linha) {
+        var status = linha.status || "recebido";
+        var idx = PASSOS.findIndex(function (p) { return p.key === status; });
+        var cancelado = status === "cancelado";
+
+        var html = "";
+
+        html += '<div class="card ord">';
+        html += '<div class="ord__head">';
+        html += '<span class="ord__proto">Protocolo <b>' + esc(linha.protocolo) + "</b></span>";
+        html += '<span class="ord__status ord__status--' + esc(status) + '">' + esc(ROTULOS[status] || status) + "</span>";
+        html += "</div>";
+
+        if (cancelado) {
+          html += '<div class="ord__cancel">⛔ Chamado cancelado. Se precisar, chame a gente novamente — 24h.</div>';
+        } else {
+          html += '<ol class="track">';
+          PASSOS.forEach(function (p, i) {
+            var cls = i < idx ? "is-done" : i === idx ? "is-now" : "";
+            html += '<li class="track__step ' + cls + '">';
+            html += '<span class="track__dot"></span>';
+            html += '<span class="track__title">' + p.titulo + "</span>";
+            html += '<span class="track__desc">' + p.desc + "</span>";
+            html += "</li>";
+          });
+          html += "</ol>";
+        }
+
+        html += '<dl class="ord__grid">';
+        html += "<div><dt>Serviço</dt><dd>" + esc(linha.servico || "—") + "</dd></div>";
+        html += "<div><dt>Urgência</dt><dd>" + esc(linha.urgencia || "Normal") + "</dd></div>";
+        if (linha.nome) html += "<div><dt>Cliente</dt><dd>" + esc(linha.nome) + "</dd></div>";
+        html += "<div><dt>Aberto em</dt><dd>" + dataBR(linha.criado_em) + "</dd></div>";
+        html += "<div><dt>Última atualização</dt><dd>" + dataBR(linha.atualizado_em) + "</dd></div>";
+        html += "</dl>";
+
+        if (linha.nota) {
+          html += '<div class="ord__nota">📝 <b>Recado do atendente:</b> ' + esc(linha.nota) + "</div>";
+        }
+
+        html += '<div class="ord__foot">';
+        html += '<a class="btn btn--whatsapp" href="https://wa.me/5573981070937?text=' +
+          encodeURIComponent("Olá! Sobre o chamado " + linha.protocolo + ": ") +
+          '" target="_blank" rel="noopener">💬 Falar sobre este chamado</a>';
+        html += '<button type="button" class="btn btn--soft" id="againBtn">Consultar outro</button>';
+        html += "</div>";
+        html += "</div>";
+
+        box.innerHTML = html;
+        box.hidden = false;
+        box.classList.add("is-in");
+
+        var again = document.getElementById("againBtn");
+        if (again) {
+          again.addEventListener("click", function () {
+            box.hidden = true;
+            box.innerHTML = "";
+            input.value = "";
+            input.focus();
+          });
+        }
+        box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      function aviso(msg) {
+        box.innerHTML = '<div class="card ord ord--erro"><b>' + esc(msg) + "</b>" +
+          '<p>Não achamos um chamado com esse código. Confira se digitou certo (ex.: <b>HIDRO-K7M2P</b>).</p></div>';
+        box.hidden = false;
+        input.classList.add("is-error");
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var proto = (input.value || "").trim();
+        if (proto.length < 4) {
+          input.classList.add("is-error");
+          hint.textContent = "Digite o protocolo completo, ex.: HIDRO-K7M2P";
+          hint.style.color = "#d63b1f";
+          return;
+        }
+        input.classList.remove("is-error");
+        hint.style.color = "";
+        btn.disabled = true;
+        btn.textContent = "Consultando…";
+        box.hidden = false;
+        box.innerHTML = '<div class="card ord ord--loading">Procurando seu chamado…</div>';
+
+        window.HidroDB.consultarChamado(proto)
+          .then(function (linha) {
+            if (!linha) aviso("Protocolo não encontrado.");
+            else render(linha);
+          })
+          .catch(function () {
+            box.innerHTML = '<div class="card ord ord--erro"><b>Não conseguimos consultar agora.</b>' +
+              "<p>Verifique sua conexão e tente de novo em alguns segundos.</p></div>";
+          })
+          .finally(function () {
+            btn.disabled = false;
+            btn.textContent = "Consultar status";
+          });
+      });
+
+      input.addEventListener("input", function () {
+        input.classList.remove("is-error");
+        hint.style.color = "";
+        var start = input.selectionStart;
+        input.value = input.value.toUpperCase();
+        try { input.setSelectionRange(start, start); } catch (e) {}
+      });
+    })();
+  </script>
+</body>
+</html>

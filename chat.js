@@ -25,7 +25,7 @@
   var busy = false;
   var step = "menu"; // menu | nome | endereco | fim
   var queue = [];
-  var data = { servico: "", urgencia: "", nome: "", endereco: "" };
+  var data = { servico: "", urgencia: "", nome: "", endereco: "", telefone: "", protocolo: "" };
 
   var SERVICES = {
     vazamento: {
@@ -211,29 +211,68 @@
     say("Me diga seu <b>nome</b> para eu registrar o chamado:", {});
   }
 
+  function askTelefone() {
+    step = "telefone";
+    say("Por último, seu <b>WhatsApp para contato</b> — se preferir, digite <b>pular</b>.", {});
+  }
+
   function finalize() {
     step = "fim";
-    say("✅ <b>Chamado registrado!</b> Já está na fila do plantão.", { kind: "card", delay: 420 });
-    say(
+    say("✅ Dados completos! Registrando seu chamado na central…", { kind: "card", delay: 400 });
+
+    var resumo =
       "🧾 <b>RESUMO DO CHAMADO</b>\n" +
-        "Serviço: " + data.servico + "\n" +
-        "Urgência: " + (data.urgencia || "Normal") + "\n" +
-        "Nome: " + esc(data.nome) + "\n" +
-        "Endereço: " + esc(data.endereco) + "\n\n" +
-        "⏱️ Chegada média: <b>40 min</b> · Garantia de <b>90 dias</b>",
-      {
-        kind: "card",
-        quick: [
-          { label: "📱 Continuar no WhatsApp", action: openWhatsApp },
-          { label: "📞 Ligar agora", cls: "chip-btn--go", action: openTel },
-          { label: "🔄 Novo chamado", action: reset }
-        ]
-      }
-    );
+      "Serviço: " + data.servico + "\n" +
+      "Urgência: " + (data.urgencia || "Normal") + "\n" +
+      "Nome: " + esc(data.nome) + "\n" +
+      "Endereço: " + esc(data.endereco) +
+      (data.telefone ? "\nWhatsApp: " + esc(data.telefone) : "") + "\n\n" +
+      "⏱️ Chegada média: <b>40 min</b> · Garantia de <b>90 dias</b>";
+
+    var acoes = {
+      kind: "card",
+      quick: [
+        { label: "📱 Continuar no WhatsApp", action: openWhatsApp },
+        { label: "📞 Ligar agora", cls: "chip-btn--go", action: openTel },
+        { label: "🔄 Novo chamado", action: reset }
+      ]
+    };
+
+    if (!window.HidroDB) {
+      say(resumo, acoes);
+      return;
+    }
+
+    window.HidroDB.criarChamado({
+      nome: data.nome,
+      telefone: data.telefone,
+      servico: data.servico,
+      urgencia: data.urgencia || "Normal",
+      endereco: data.endereco,
+      descricao: "Chamado aberto pelo chat do site.",
+      origem: "chat"
+    })
+      .then(function (protocolo) {
+        data.protocolo = protocolo;
+        say(
+          "📋 <b>Protocolo: " + protocolo + "</b>\n" +
+            "Guarde este código — é com ele que você acompanha o status na aba " +
+            "<b><a href=\"pedidos.html\">Pedidos</a></b> do site.",
+          { kind: "card" }
+        );
+        say(resumo, acoes);
+      })
+      .catch(function () {
+        say(
+          "⚠️ Não consegui registrar online agora — chame no WhatsApp que a central registra na hora.",
+          { kind: "alert" }
+        );
+        say(resumo, acoes);
+      });
   }
 
   function reset() {
-    data = { servico: "", urgencia: "", nome: "", endereco: "" };
+    data = { servico: "", urgencia: "", nome: "", endereco: "", telefone: "", protocolo: "" };
     say("Vamos de novo! 🔄", { delay: 350 });
     menu();
   }
@@ -294,6 +333,7 @@
   /* ---------- ações de contato ---------- */
   function openWhatsApp() {
     var lines = ["Olá! Falei pelo chat do site da HidroTech."];
+    if (data.protocolo) lines.push("Protocolo: " + data.protocolo);
     if (data.servico) lines.push("Serviço: " + data.servico);
     if (data.urgencia) lines.push("Urgência: " + data.urgencia);
     if (data.nome) lines.push("Nome: " + data.nome);
@@ -324,6 +364,14 @@
 
     if (step === "endereco") {
       data.endereco = text;
+      askTelefone();
+      return;
+    }
+
+    if (step === "telefone") {
+      if (!/^(pular|n[ãa]o|nao|n\/a|sem|prefiro n[ãa]o|0|-)$/i.test(text.trim())) {
+        data.telefone = text.trim().slice(0, 40);
+      }
       finalize();
       return;
     }
