@@ -46,7 +46,7 @@ O Render lê a configuração automaticamente.
 
 | O que | Onde |
 |---|---|
-| Telefone / WhatsApp | `index.html` (busque por `4002-8922`) |
+| Telefone / WhatsApp | `index.html` (busque por `98107-0937`) |
 | E-mail e endereço | `index.html` (seção `#contato` e rodapé) |
 | Cores | `styles.css` → variáveis `:root` |
 | Serviços e textos | `index.html` (seções `#servicos`, `#faq`) |
